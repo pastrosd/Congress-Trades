@@ -15,6 +15,8 @@ library(lubridate)
 library(jsonlite)
 library(DescTools)
 library(data.table)
+library(BatchGetSymbols)
+
 
 #function to pull congress trade data from third party site
 congress_json <- function(){
@@ -57,7 +59,7 @@ congress.df <- rbind(senate.file.df,house.file.df)
 congress.df$position <- case_when(tolower(congress.df$type) %like% "purchase" ~ "purchase",
                                   tolower(congress.df$type) %like% "sale" ~ "sale",
                                   TRUE ~ "unkown") 
-congress.df$position_partial <- case_when(congress.df$type %like% "partial" ~ 1,
+congress.df$position_partial <- case_when(tolower(congress.df$type) %like% "partial" ~ 1,
                                   TRUE ~ 0) 
 
 return(congress.df)

@@ -1,0 +1,6 @@
+"0","stock.hist <- stock_batch(tickers.list,min.yr)
+"
+"2","Warning: argument is not an atomic vector; coercing"
+"2","Error in if (nrow(df.out) == 0) return(df.out) : 
+  argument is of length zero
+"

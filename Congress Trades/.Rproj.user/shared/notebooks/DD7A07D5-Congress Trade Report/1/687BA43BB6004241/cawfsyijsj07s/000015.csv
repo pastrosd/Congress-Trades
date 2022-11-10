@@ -1,0 +1,12 @@
+"0","
+stoch.hist <- stock_batch(tickers.list,min.yr)
+"
+"1","[1m[33mError[39m in [38;5;251m`dplyr::bind_rows()`[39m:[22m
+[33m![39m Can't combine `..1$price.open` <double> and `..1428$price.open` <character>.
+Backtrace:
+[90m 1. [39m[1mglobal[22m stock_batch(tickers.list, min.yr)
+[90m 2. [39m[1mBatchGetSymbols[22m::BatchGetSymbols(...)
+[90m      at ]8;line=70:col=2;file://C:\Users\danie\OneDrive\Documents\GitHub\Congress-Trades\Congress Trades\tools.Rtools.R:70:2]8;;[39m
+[90m 3. [39m[1mdplyr[22m::bind_rows(purrr::map(my.l, 1))
+[90m 6. [39m[38;5;251m[1m[94mvctrs::vec_rbind([38;5;251m[22m[39m!!!dots, .names_to = .id[38;5;251m[1m[94m)[38;5;251m[22m[39m
+"

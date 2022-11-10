@@ -1,0 +1,10 @@
+"0","
+congress.trades%>%
+  filter(transaction_month<floor_date(Sys.Date(),'month'))%>%
+  plot_ly(x=~transaction_month,y=~trades,
+          color=~position,text =~prct_trades,type = 'bar')%>%
+  layout(yaxis = list(tickformat = ',.3r',title = 'Number of Trades'),
+         xaxis = list(title = 'Trade Month'), barmode = 'stack',
+         title = 'Sale & Purchase Trade Volume')
+"
+"0",""
