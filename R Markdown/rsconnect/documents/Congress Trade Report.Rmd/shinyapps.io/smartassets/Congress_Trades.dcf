@@ -1,0 +1,13 @@
+name: Congress_Trades
+title: Congress_Trades
+username:
+account: smartassets
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7582922
+bundleId: 6602183
+url: https://smartassets.shinyapps.io/Congress_Trades/
+when: 1670380563.13956
+lastSyncTime: 1670380563.13957
+asMultiple: FALSE
+asStatic: FALSE

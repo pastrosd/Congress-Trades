@@ -1,0 +1,22 @@
+# install.packages('tidyverse', dep = T)
+# install.packages('dplyr', dep = T)
+# install.packages('plotly', dep = T)
+# install.packages('lubridate', dep =T)
+# install.packages('rvest')
+# install.packages("rjson")
+
+
+#load packages needed for project
+library(dplyr)
+library(plotly)
+library(tidyverse)
+library(rvest)
+library(lubridate)
+library(jsonlite)
+library(DescTools)
+library(data.table)
+library(BatchGetSymbols)
+library(TTR)
+library(caret)
+library(tidyr)
+library(rpart.plot)

@@ -12,8 +12,12 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE
 )
+source('packages.R')
+source('source.R')
 source('functions.R')
+```
 
+```{r inputs}
 load_congress <- TRUE
 
 min.yr <- 2020
