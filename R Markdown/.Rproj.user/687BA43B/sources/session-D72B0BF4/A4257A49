@@ -1,26 +1,26 @@
 {
-    "id": "BB1B2520",
-    "path": "~/GitHub/Congress-Trades/Congress Trades/functions.R",
+    "id": "A4257A49",
+    "path": "~/GitHub/Congress-Trades/R Markdown/functions.R",
     "project_path": "functions.R",
     "type": "r_source",
-    "hash": "663794213",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1663467179999.0,
+    "created": 1672372090225.0,
     "source_on_save": false,
-    "relative_order": 2,
+    "relative_order": 4,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "41,15",
-        "scrollLine": "36"
+        "cursorPosition": "0,0",
+        "scrollLine": "1"
     },
     "folds": "",
-    "lastKnownWriteTime": 1668051908,
+    "lastKnownWriteTime": 1670380459,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1668051908844,
+    "last_content_update": 1670380459,
     "read_only": false,
     "read_only_alternatives": []
 }
