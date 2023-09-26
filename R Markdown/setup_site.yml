@@ -1,0 +1,10 @@
+ name: "Congress Trades"
+  output_dir: "docs"
+  navbar:
+    title: "Congress Trades"
+    left:
+    - text: "Report"
+        href: COngress Trade Report.html
+  output:
+    html_document:
+      theme: cosmo

@@ -2,8 +2,6 @@
 title: "Congress Trades"
 author: "Daniel Pastros"
 date: " `r lubridate::today()`"
-output: html_document
-runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -65,7 +63,8 @@ I am using two APIs one for the [House](https://housestockwatcher.com/) and one 
 This report was made for entertainment purposes and I will continuously update it with improvements in insight and look for new ways and packages that could be leveraged for data analytics on congress members' sentiment in the market and on certain stocks. Lets level the playing field!
 
 ## Data Review
-The data was filtered down to only stocks in the SP 500 and back to 2020 transactions. 
+
+The data was filtered down to only stocks in the SP 500 and back to 2020 transactions.
 
 ```{r data review, echo=FALSE}
 # summary(congressmod.df)
@@ -88,6 +87,7 @@ congressmod.df%>%
 ```
 
 ## Trade Sentiment
+
 Looking at the volume and type of trade that has occurred monthly compared to the movement of SPY (SP 500 Index ETF) over the last 36 months.
 
 ```{r trading volume}
@@ -111,8 +111,8 @@ purchasesalevolume.df%>%
 
 ```
 
-
 ## Hottest Stock
+
 The last 3 months summarized by stock.
 
 ```{r buying stock}
