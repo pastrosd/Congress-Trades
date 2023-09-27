@@ -1,0 +1,144 @@
+---
+title: "Congress Trades"
+author: "Daniel Pastros"
+date: " `r lubridate::today()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+source('packages.R')
+source('source.R')
+source('functions.R')
+```
+
+```{r inputs}
+load_congress <- TRUE
+load_sp500list <- TRUE
+
+min.yr <- ymd(20200101)
+
+```
+
+```{r load}
+
+if(TRUE == load_sp500list){
+sp500list.df <- GetSP500Stocks(do.cache = T,
+  cache.folder = file.path("sp500_list"))
+
+sp500list.df <- clean_names(sp500list.df)
+
+spy <-getSymbols('SPY', first.date = min.yr, last.date = Sys.Date(),auto.assign = F)
+
+spy <- clean_names(data.frame(spy))
+
+}
+
+
+if(TRUE == load_congress){
+congress.df <- congress_json()
+
+congressmod.df <- congress.df%>%filter(transaction_date>min.yr & ticker %in% sp500list.df$tickers & position != "unkown")
+
+# congressmod.df$max_amount <-  congressmod.df$amount
+# strsplit(congressmod.df$amount[1], '-')(2,)
+
+}
+
+
+
+
+
+```
+
+## Introduction
+
+Congress members are known for hearing important information that could indicate either the sentiment of the stock market or industry sectors status that could lead to a rally or crash.
+
+I am using two APIs one for the [House](https://housestockwatcher.com/) and one for the [Senate](https://senatestockwatcher.com/) that was set up by a company called Stock Watcher, which they scrap the governments website ([House](https://disclosures-clerk.house.gov/PublicDisclosure/FinancialDisclosure) and [Senate](https://www.senate.gov/pagelayout/legislative/g_three_sections_with_teasers/lobbyingdisc.htm)) for public filings of financial transactions from congress members. These website only show one or the other congress bodies and wanted to combine these data sets to get a bigger picture of the sentiment of trades that are occurring.
+
+This report was made for entertainment purposes and I will continuously update it with improvements in insight and look for new ways and packages that could be leveraged for data analytics on congress members' sentiment in the market and on certain stocks. Lets level the playing field!
+
+## Data Review
+
+The data was filtered down to only stocks in the SP 500 and back to 2020 transactions.
+
+```{r data review, echo=FALSE}
+# summary(congressmod.df)
+
+congressmod.df%>%
+  mutate(trans_year = year(transaction_date))%>%
+  group_by(trans_year)%>%
+  summarize(number_transactions = n(),
+            number_members = n_distinct(congress_member),
+            number_stocks = n_distinct(ticker),
+            average_days_disclosed = round(mean(disclosure_date-transaction_date)))%>%
+  pivot_longer(cols = c(number_transactions,
+                        number_members,
+                        number_stocks,
+                        average_days_disclosed),
+               values_transform = as.character)%>%
+  pivot_wider(names_from = trans_year, values_from = value)%>%
+  data.table()
+  
+```
+
+## Trade Sentiment
+
+Looking at the volume and type of trade that has occurred monthly compared to the movement of SPY (SP 500 Index ETF) over the last 36 months.
+
+```{r trading volume}
+
+purchasesalevolume.df <- congressmod.df%>%
+  mutate(transaction_month = floor_date(transaction_date,'month'),
+         count_trans = case_when(position_partial == 1 ~ .5,TRUE~1))%>%
+# left_join(spy)  
+  group_by(position,transaction_month)%>%
+  summarize(trades_n = sum(count_trans))%>%
+  ungroup()
+  
+purchasesalevolume.df%>%
+  filter(transaction_month<floor_date(Sys.Date(),'month'))%>%
+  plot_ly(x=~transaction_month,y=~trades_n,
+          color=~position,mode = 'lines')%>%
+  layout(title = 'Sale & Purchase Trade Volume',
+         yaxis = list(tickformat = ',.3r',title = 'Number of Trades'),
+         xaxis = list(title = 'Trade Month')
+         )
+
+```
+
+## Hottest Stock
+
+The last 3 months summarized by stock.
+
+```{r buying stock}
+
+buystock <- congressmod.df%>%
+  filter(transaction_date >= (today()- months(3))& position == 'purchase')%>%
+  group_by(ticker)%>%
+  summarize(trades_n = n())%>%
+  arrange(desc(trades_n))%>%head(10)
+
+buystock%>%
+   plot_ly(labels = ~ticker, values = ~trades_n, type = 'pie')%>%
+  layout(title = 'Top 10 Buys by Ticker')
+
+```
+
+```{r selling stock}
+
+salestock <- congressmod.df%>%
+  filter(transaction_date >= (today()- months(3))& position == 'sale')%>%
+  mutate(count_trans = case_when(position_partial == 1 ~ .5,TRUE~1))%>%
+  group_by(ticker)%>%
+  summarize(trades_n = sum(count_trans))%>%
+  arrange(desc(trades_n))%>%head(10)
+
+salestock%>%
+   plot_ly(labels = ~ticker, values = ~trades_n, type = 'pie')%>%
+  layout(title = 'Top 10 Sales by Ticker')
+```
