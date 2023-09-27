@@ -2,6 +2,7 @@
 title: "Congress Trades"
 author: "Daniel Pastros"
 date: " `r lubridate::today()`"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
